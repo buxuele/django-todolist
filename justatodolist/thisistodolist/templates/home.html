@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<!-- 警告以及提示信息在这里，好看一些而已。 -->
+	{% if messages %}
+		{% for m in messages %}
+			<div class="alert alert-warning alert-dismissable" role="alert">
+				<button class="close" data-dismiss="alert">
+					<small><sub>好的</sub></small>
+				</button>
+				{{ m }}
+			</div>
+		{% endfor %}
+	{% endif %}
+
+
+	<!-- <form >  </form> -->
+	 	
+	<!-- 下划线和点的区别。以及其他标点的，以及拼写上的错误。 -->
+	
+	{% if all_items %}
+		<table class="table table-bordered">
+		{% for stuff in all_items %}
+
+			<!-- 如果任务done， 就cross_off, 否则保持原样 -->
+			<!-- 这个修改 任务的状态是，注意不要忘记加上任务的 id  -->
+			{% if stuff.completed %}
+				<tr class="table-secondary">
+					<td class="striker"><a href="{% url 'edit' stuff.id %}">{{ stuff.item }}</a></td>
+					<td><center><a href="{% url 'going' stuff.id %}">恢复</a></center></td>
+					<td><center><a href="{% url 'delete' stuff.id %}">删除</a></center></td>
+				</tr>
+			{% else %} <!-- unfinished items -->
+				<tr>
+					<td><a href="{% url 'edit' stuff.id %}">{{ stuff.item }}</a></td>
+					<td><center><a href="{% url 'done' stuff.id %}">Done</a></center></td>
+					<td><center><a href="{% url 'delete' stuff.id %}">删除</a></center></td>
+				</tr>
+			{% endif %}
+
+		{% endfor %}
+		</table>
+	{% endif %}
+
+
+{% endblock content %}
